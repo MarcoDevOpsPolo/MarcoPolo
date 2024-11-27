@@ -21,6 +21,9 @@ if [[ "$subnetName" == "public" ]]; then
     runInstanceCmd="$runInstanceCmd \
         --associate-public-ip-address \
         --tag-specifications \"ResourceType=instance,Tags=[{Key=Name,Value=my-public-instance-stemilia}]\""
+else
+    runInstanceCmd="$runInstanceCmd \
+    --tag-specifications \"ResourceType=instance,Tags=[{Key=Name,Value=my-private-instance-stemilia}]\""
 fi
 
 # Run the command
