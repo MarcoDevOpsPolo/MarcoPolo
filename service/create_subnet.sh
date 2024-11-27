@@ -7,4 +7,4 @@ vpcId="$3"
 aws ec2 create-subnet \
     --vpc-id "$vpcId" \
     --cidr-block "$cidr" \
-    --tag-specifications "ResourceType=subnet,Tags=[{Key=Name,Value=$name}]"
+    --tag-specifications "ResourceType=subnet,Tags=[{Key=Name,Value=$name}]" >> /dev/null

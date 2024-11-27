@@ -29,4 +29,4 @@ else
 fi
 
 # Execute the final command
-eval "$addroutecmd"
+eval "$addroutecmd" >> /dev/null

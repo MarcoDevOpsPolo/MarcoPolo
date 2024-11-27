@@ -6,5 +6,5 @@ aws ec2 authorize-security-group-ingress \
   --group-id "$secGroupId" \
   --protocol tcp \
   --port 22 \
-  --cidr 0.0.0.0/0
+  --cidr 0.0.0.0/0 >> /dev/null
 

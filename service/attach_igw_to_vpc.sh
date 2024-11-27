@@ -5,4 +5,4 @@ igwId=$(aws ec2 describe-internet-gateways --filters "Name=tag:Name,Values=my-ig
 
 aws ec2 attach-internet-gateway \
     --internet-gateway-id "$igwId" \
-    --vpc-id "$vpcId"
+    --vpc-id "$vpcId" >> /dev/null

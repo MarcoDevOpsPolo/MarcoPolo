@@ -24,4 +24,4 @@ if [[ "$subnetName" == "public" ]]; then
 fi
 
 # Run the command
-eval "$runInstanceCmd"
+eval "$runInstanceCmd" >> /dev/null
