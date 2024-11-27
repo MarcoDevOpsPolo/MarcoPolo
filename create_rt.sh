@@ -1,5 +1,5 @@
 #!/bin/bash
-vpcId=$(aws ec2 describe-vpcs --filters "Name=tag:Name,Values=my-vpc-stemilia" --query "Vpcs[0].VpcId" --output text)
+vpcId="$1"
 
 aws ec2 create-route-table \
  --vpc-id "$vpcId" \
