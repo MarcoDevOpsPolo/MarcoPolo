@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#stop if any of the scripts fails
+set -e 
+
 main() {
     ./service/create_vpc.sh 
     vpcId=$(aws ec2 describe-vpcs --filters "Name=tag:Name,Values=my-vpc-stemilia" --query "Vpcs[0].VpcId" --output text)
