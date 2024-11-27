@@ -40,7 +40,25 @@ main() {
 
     echo "INSTANCES CREATED"
 
-    
+    #create NAT gateway for the private instance
+    ./service/create_natgw.sh "$vpcId"
+
+    echo "NAT GATEWAY CREATED"
+
+    #add SSH rule to the security group in order to make SSH possible for the public instance
+    ./service/put_sshRule_to_sg.sh "$vpcId"
+
+    echo "SSH ALLOWED"
+
+    #add routes to route tables
+    ./service/add_route.sh public "$vpcId"
+    ./service/add_route.sh private "$vpcId"
+
+    echo "ROUTES ADDED TO ROUTE TABLES"
 }
 
 main
+
+echo "YOUR VPC SYSTEM CREATED SUCCESSFULLY!"
+
+./service/ssh.sh
