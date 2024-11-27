@@ -3,10 +3,7 @@
 rtNamePart="$1"
 
 # Get the VPC ID
-vpcId=$(aws ec2 describe-vpcs \
-  --filters "Name=tag:Name,Values=my-vpc-stemilia" \
-  --query "Vpcs[0].VpcId" \
-  --output text)
+vpcId="$2"
 
 # Get the Route Table ID
 rtId=$(aws ec2 describe-route-tables \
