@@ -22,9 +22,7 @@ if [[ "$rtNamePart" == "public" ]]; then
     --output text)
   addroutecmd="$addroutecmd --gateway-id $igwId"
 else
-  natgwId=$(aws ec2 describe-nat-gateways \
-    --query "NatGateways[0].NatGatewayId" \
-    --output text)
+  natgwId=$(aws ec2 describe-nat-gateways --query "NatGateways[?VpcId=='$2'].NatGatewayId" --output text)
   addroutecmd="$addroutecmd --gateway-id $natgwId"
 fi
 
