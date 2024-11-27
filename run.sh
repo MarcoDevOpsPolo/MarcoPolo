@@ -64,4 +64,7 @@ main
 
 echo "YOUR VPC SYSTEM CREATED SUCCESSFULLY!"
 
-./service/ssh.sh
+publicIP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=my-public-instance-stemilia" --query "Reservations[0].Instances[0].PublicIpAddress" --output text)
+privateIP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=my-private-instance-stemilia" --query "Reservations[0].Instances[0].PrivateIpAddress" --output text)
+
+./service/ssh.sh "$publicIP" "$privateIP"
