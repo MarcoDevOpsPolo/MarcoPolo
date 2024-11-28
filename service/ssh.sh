@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Check if SSH agent is already running
-if ! pgrep -u "$USER" ssh-agent > /dev/null; then
+if ! grep -u "$USER" ssh-agent > /dev/null; then
     eval "$(ssh-agent)"
 fi
 
