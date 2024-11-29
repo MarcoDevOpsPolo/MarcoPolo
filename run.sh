@@ -5,7 +5,7 @@ set -e
 
 main() {
     ./service/create_vpc.sh 
-    vpcId=$(aws ec2 describe-vpcs --filters "Name=tag:Name,Values=my-vpc-stemilia" --query "Vpcs[0].VpcId" --output text)
+    vpcId=$(aws ec2 describe-vpcs --filters "Name=tag:Name,Values=my-vpc2-stemilia" --query "Vpcs[0].VpcId" --output text)
 
     echo "VPC CREATED"
 
@@ -65,6 +65,8 @@ main
 echo "YOUR VPC SYSTEM CREATED SUCCESSFULLY!"
 
 publicIP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=my-public-instance-stemilia" --query "Reservations[0].Instances[0].PublicIpAddress" --output text)
+echo "public: $publicIP" 
 privateIP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=my-private-instance-stemilia" --query "Reservations[0].Instances[0].PrivateIpAddress" --output text)
+echo "private: $privateIP"
 
 ./service/ssh.sh "$publicIP" "$privateIP"
