@@ -76,4 +76,4 @@ if __name__ == "__main__":
     parser = optparse.OptionParser()
     opts, args = parser.parse_args()
     # print(ceil_log_2(int(sys.argv[1])))
-    bin_ipv4_to_octets(sys.argv[1])
+    print(bin_ipv4_to_octets(sys.argv[1]))
