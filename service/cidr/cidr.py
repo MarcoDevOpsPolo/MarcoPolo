@@ -14,7 +14,7 @@ def ceil_log_2(n):
 def validate_binary_format(binIP):
     """Validates wheter a string is in the valid binary format in python"""
     binStrPattern = re.compile(
-        "^0b[01]+$"
+        r"^0b[01]+$"
     )  # starts with 0b, followed by 0 or 1 until end of line
     if not binStrPattern.match(str(binIP)):
         raise TypeError("provided value: " + str(binIP) + " is not in binary format")
@@ -40,9 +40,35 @@ def bin_ipv4_to_octets(binIP):
         + str(int(binStr32[24:32], 2))
     )
 
+def validate_octet_pattern(octetStr):
+	'''octet validation'''
+	looseIPv4Pattern = re.compile(
+		r"^(\d{1,3}\.){3}\d{1,3}$"
+	) # Any string that has 3 dots separating 1-3 digits packs. Not full validation, e.g. 999.999.999.999 goes through.
+	if not looseIPv4Pattern.match(str(octetStr)):
+		raise TypeError("provided value: " + str(octetStr) + " is not in octet ipv4 format!")
+	return True
+	
+def octets_to_bin_ipv4(octetStr):
+	'''converts from octet ipv4 to python binary string
+	e.g.:
+	'10.10.255.0' -> '0b000000101000000010101111111100000000' '''
+	validate_octet_pattern(octetStr.strip())
+	octets = octetStr.split(".")
+	binStr = ""
+	for i in octets:
+		part = bin(int(i))[2:]
+		if len(part) > 8:
+			raise ValueError("the given octet (" + str(i) + ") is larger than 255!")
+		if len(part) < 8:
+			part = generate_n_zeros_str(8 - len(part)) + part
+		binStr += part
+	return '0b' + binStr
 
 def generate_n_zeros_str(n):
     """generate a string with n zeroes in it"""
+    if n < 1:
+        return ""
     s = ""
     for i in range(n):
         s += "0"
@@ -71,9 +97,21 @@ def convert_to_32_bit_bin_str(binIP):
         binStr32 = generate_n_zeros_str(32 - len(binStr32)) + binStr32
     return binStr32
 
+def allocate_cidr(batches=[2], start="10.0.0.0", ipclass="A", mask=8, minimal=True):
+	'''Allocate CIDR ranges by given parameters.
+	Invoke validation process.
+	Parameters:
+	batches: Array of integers, contains the minimum required ammount of addresses per subnet. Number of elements also determines the number of subnets that will be created.
+	start: The first address of the first subnet. Mask not required in all cases, could lead to clash.
+	ipclass: the class of the main network. Class A: 10.*.*.*, Class B: 172.16.*.*-172.31.*.*, Class C: 192.168.*.* NOT IMPLEMENTED YET
+	mask: the mask of the main network.
+	minimal: Generates the smallest possible networks based on the given data. OTHER OPTION NOT IMPLEMENTED YET.'''
+	pass
+
+
 
 if __name__ == "__main__":
     parser = optparse.OptionParser()
     opts, args = parser.parse_args()
     # print(ceil_log_2(int(sys.argv[1])))
-    print(bin_ipv4_to_octets(sys.argv[1]))
+    print(octets_to_bin_ipv4(sys.argv[1]))
