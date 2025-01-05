@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import optparse  # for handling command line arguments (positional parameters), flags
+import argparse  # for handling command line arguments (positional parameters), flags
 import math
 import sys  # for sys.argv
 import re  # regex
@@ -121,7 +121,7 @@ def allocate_cidr(batchSizes=[2], start="10.0.0.0", ipclass="A", mask=8, minimal
 	"""
     batches = []
     for i in batchSizes:
-        batch = {"size": i, "requiredFreeMaskingSize": ceil_log_2(i)}
+        batch = {"size": int(i), "requiredFreeMaskingSize": ceil_log_2(i)}
         batches.append(batch)
     batches.sort(key=lambda x: x["requiredFreeMaskingSize"], reverse=True)
 
@@ -147,6 +147,29 @@ def print_cidr_only(batches):
 
 
 if __name__ == "__main__":
-    parser = optparse.OptionParser()
-    opts, args = parser.parse_args()
-    print_cidr_only(allocate_cidr(batchSizes=[80, 10000, 30, 916]))
+    # Initialize the parser
+    parser = argparse.ArgumentParser(description="A script to calculate CIDR ranges.")
+
+    # Add options
+    parser.add_argument(
+        "-p",
+        nargs="+",
+        type=int,
+        help="The sizes of each IP pool, multiple arguments could be given to it, if invoked needs at least one.",
+        required=True,
+    )
+
+    parser.add_argument(
+        "-s",
+        nargs=1,
+        type=str,
+        help="The starter ip address of the subnets. Default 10.0.0.0",
+    )
+
+    # Parse the arguments
+    args = parser.parse_args()
+
+    if args.s is None:
+        print_cidr_only(allocate_cidr(args.p))
+    else:
+        print_cidr_only(allocate_cidr(batchSizes=args.p, start=args.s[0]))
