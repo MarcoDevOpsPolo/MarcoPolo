@@ -81,7 +81,7 @@ done
 
 # Run the AWS scripts
 main() {
-    ./service/create_vpc.sh 
+    ./service/create_vpc.sh "$VPC_NAME"
     vpcId=$(aws ec2 describe-vpcs --filters "Name=tag:Name,Values=$VPC_NAME" --query "Vpcs[0].VpcId" --output text)
 
     echo "VPC CREATED"
@@ -115,8 +115,8 @@ main() {
     echo "IGW CREATED AND ATTACHED"
 
     #create public and private EC2 instances
-    ./service/runEC2.sh "$PRIVATE_INSTANCE" "$vpcId" "$AWS_KEY_NAME" "$AMI_ID"
-    ./service/runEC2.sh "$PUBLIC_INSTANCE" "$vpcId" "$AWS_KEY_NAME" "$AMI_ID"
+    ./service/runEC2.sh "$PRIVATE_SUBNET" "$vpcId" "$RSA_KEY_NAME" "$AMI_ID" "$PRIVATE_INSTANCE"
+    ./service/runEC2.sh "$PUBLIC_SUBNET" "$vpcId" "$RSA_KEY_NAME" "$AMI_ID" "$PUBLIC_INSTANCE"
 
     echo "INSTANCES CREATED"
 
@@ -131,7 +131,7 @@ main() {
     echo "SSH ALLOWED"
 
     #add routes to route tables
-    ./service/add_route.sh "$PUBLIC_RT" "$vpcId" "$NATGTW_NAME"
+    ./service/add_route.sh "$PUBLIC_RT" "$vpcId" "$IGW_NAME"
     ./service/add_route.sh "$PRIVATE_RT" "$vpcId" "$NATGTW_NAME"
 
     echo "ROUTES ADDED TO ROUTE TABLES"

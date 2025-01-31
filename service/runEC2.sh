@@ -3,6 +3,7 @@ subnetName="$1"
 vpcId="$2"
 keyName="$3"    # personal key name
 imageID="$4"    # ami id
+instanceName="$5"
 
 subnetID=$(aws ec2 describe-subnets --filters "Name=vpc-id,Values=$vpcId" "Name=tag:Name,Values=$subnetName" --query "Subnets[0].SubnetId" --output text)
 secGroupId=$(aws ec2 describe-security-groups --filters "Name=group-name,Values=default" "Name=vpc-id,Values=$vpcId" --query "SecurityGroups[0].GroupId" --output text)
@@ -20,10 +21,10 @@ runInstanceCmd="aws ec2 run-instances \
 if [[ "$subnetName" == *"public"* ]]; then
     runInstanceCmd="$runInstanceCmd \
         --associate-public-ip-address \
-        --tag-specifications \"ResourceType=instance,Tags=[{Key=Name,Value=$subnetName}]\""
+        --tag-specifications \"ResourceType=instance,Tags=[{Key=Name,Value=$instanceName}]\""
 else
     runInstanceCmd="$runInstanceCmd \
-    --tag-specifications \"ResourceType=instance,Tags=[{Key=Name,Value=$subnetName}]\""
+    --tag-specifications \"ResourceType=instance,Tags=[{Key=Name,Value=$instanceName}]\""
 fi
 
 # Run the command
