@@ -121,7 +121,7 @@ main() {
     echo "INSTANCES CREATED"
 
     #create NAT gateway for the private instance
-    ./service/create_natgw.sh "$vpcId"
+    ./service/create_natgw.sh "$vpcId" "$PUBLIC_SUBNET" "$NATGTW_NAME"
 
     echo "NAT GATEWAY CREATED"
 
