@@ -98,8 +98,8 @@ main() {
     echo "PUBLIC ROUTE TABLE CREATED"
 
     #associate the subnets to the corresponding route tables
-    ./service/associate_subnet_to_rt.sh public "$vpcId"
-    ./service/associate_subnet_to_rt.sh private "$vpcId"
+    ./service/associate_subnet_to_rt.sh public "$vpcId" "$RT_NAME" "$SUBNET_NAME"
+    ./service/associate_subnet_to_rt.sh private "$vpcId" "$RT_NAME" "$SUBNET_NAME"
 
     echo "SUBNETS ASSOCIATED TO ROUTE TABLES"
 
