@@ -104,8 +104,8 @@ main() {
     echo "SUBNETS ASSOCIATED TO ROUTE TABLES"
 
     #create and attach internet gateway for public subnet
-    ./service/create_internet_gateway.sh my-igw-stemilia
-    ./service/attach_igw_to_vpc.sh "$vpcId"
+    ./service/create_internet_gateway.sh "$IGW_NAME"
+    ./service/attach_igw_to_vpc.sh "$vpcId" "$IGW_NAME"
 
     echo "IGW CREATED AND ATTACHED"
 
