@@ -15,7 +15,7 @@ RSA_KEY_PATH="$HOME/ssh/"
 
 
 # Computed values
-PRIVATE_SUBENT="private-$SUBNET_NAME"
+PRIVATE_SUBNET="private-$SUBNET_NAME"
 PUBLIC_SUBNET="public-$SUBNET_NAME"
 PUBLIC_INSTANCE="public-$INSTANCE_NAME"
 PRIVATE_INSTANCE="private-$INSTANCE_NAME"
@@ -87,13 +87,13 @@ main() {
     echo "PRIVATE ROUTE TABLE RENAMED"
 
     #create private&public subnet
-    ./service/create_subnet.sh my-private-subnet-stemilia 10.0.1.0/24 "$vpcId"
-    ./service/create_subnet.sh my-public-subnet-stemilia 10.0.2.0/24 "$vpcId"
+    ./service/create_subnet.sh "$PRIVATE_SUBNET" 10.0.1.0/24 "$vpcId"
+    ./service/create_subnet.sh "$PUBLIC_SUBNET" 10.0.2.0/24 "$vpcId"
 
     echo "SUBNETS CREATED"
 
     #create public route table as well
-    ./service/create_rt.sh "$vpcId"
+    ./service/create_rt.sh "$vpcId" "$PUBLIC_RT"
 
     echo "PUBLIC ROUTE TABLE CREATED"
 
