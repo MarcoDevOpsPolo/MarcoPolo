@@ -131,8 +131,8 @@ main() {
     echo "SSH ALLOWED"
 
     #add routes to route tables
-    ./service/add_route.sh public "$vpcId"
-    ./service/add_route.sh private "$vpcId"
+    ./service/add_route.sh "$PUBLIC_RT" "$vpcId" "$NATGTW_NAME"
+    ./service/add_route.sh "$PRIVATE_RT" "$vpcId" "$NATGTW_NAME"
 
     echo "ROUTES ADDED TO ROUTE TABLES"
 }
