@@ -59,10 +59,12 @@ while [[ $# -gt 0 ]]; do
             ;;
         --rsa-key-name)
             RSA_KEY_NAME="$2"
+            echo "$RSA_KEY_NAME"
             shift 2
             ;;
         --rsa-key-path)
             RSA_KEY_PATH="$2"
+            echo "$RSA_KEY_PATH"
             shift 2
             ;;
         --ami-id)
@@ -141,9 +143,10 @@ main
 
 echo "YOUR VPC SYSTEM CREATED SUCCESSFULLY!"
 
-publicIP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=my-public-instance-stemilia" --query "Reservations[0].Instances[0].PublicIpAddress" --output text)
+publicIP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=$PUBLIC_INSTANCE" --query "Reservations[0].Instances[0].PublicIpAddress" --output text)
 echo "public: $publicIP" 
-privateIP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=my-private-instance-stemilia" --query "Reservations[0].Instances[0].PrivateIpAddress" --output text)
+privateIP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=$PRIVATE_INSTANCE" --query "Reservations[0].Instances[0].PrivateIpAddress" --output text)
 echo "private: $privateIP"
+echo "$SSH"
 
 ./service/ssh.sh "$publicIP" "$privateIP" "$SSH"

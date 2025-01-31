@@ -50,7 +50,8 @@ For explore all the options please run:
 
 ```bash
 ./run.sh --rsa-key-name <key-name> \
---rsa-key-path </your/path/to/your/public/key/
+--rsa-key-path </your/path/to/your/public/key/ \
+--ami-id <ami-id for your aws region>
 ```
 
 Make sure that rsa-key-path ends with **`/`**!
