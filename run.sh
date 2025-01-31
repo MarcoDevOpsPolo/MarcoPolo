@@ -14,16 +14,6 @@ RSA_KEY_NAME="id_rsa"
 RSA_KEY_PATH="$HOME/ssh/"
 AMI_ID="ami-0b5673b5f6e8f7fa7" #region: frankfurt eu-central-1
 
-
-# Computed values
-PRIVATE_SUBNET="private-$SUBNET_NAME"
-PUBLIC_SUBNET="public-$SUBNET_NAME"
-PUBLIC_INSTANCE="public-$INSTANCE_NAME"
-PRIVATE_INSTANCE="private-$INSTANCE_NAME"
-PRIVATE_RT="private-$RT_NAME"
-PUBLIC_RT="public-$RT_NAME"
-SSH="${RSA_KEY_PATH}${RSA_KEY_NAME}.pem"
-
 # Function to show usage/help message
 usage() {
     echo "Usage: $0 [--vpc-name <name>] [--subnet-name <name>] [--instance-name <name>] [--rt-name <name>] [--igw-name <name>] [--natgtw-name <name>] [--rsa-key-name <name>] [--rsa-key-path </your/path/>]"
@@ -59,12 +49,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --rsa-key-name)
             RSA_KEY_NAME="$2"
-            echo "$RSA_KEY_NAME"
             shift 2
             ;;
         --rsa-key-path)
             RSA_KEY_PATH="$2"
-            echo "$RSA_KEY_PATH"
             shift 2
             ;;
         --ami-id)
@@ -83,6 +71,16 @@ done
 
 # Run the AWS scripts
 main() {
+
+    # Computed values
+    PRIVATE_SUBNET="private-$SUBNET_NAME"
+    PUBLIC_SUBNET="public-$SUBNET_NAME"
+    PUBLIC_INSTANCE="public-$INSTANCE_NAME"
+    PRIVATE_INSTANCE="private-$INSTANCE_NAME"
+    PRIVATE_RT="private-$RT_NAME"
+    PUBLIC_RT="public-$RT_NAME"
+    SSH="${RSA_KEY_PATH}${RSA_KEY_NAME}.pem"
+
     ./service/create_vpc.sh "$VPC_NAME"
     vpcId=$(aws ec2 describe-vpcs --filters "Name=tag:Name,Values=$VPC_NAME" --query "Vpcs[0].VpcId" --output text)
 
