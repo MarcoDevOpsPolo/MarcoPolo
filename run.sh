@@ -11,16 +11,16 @@ RT_NAME="my-rt"
 IGW_NAME="my-igw"
 NATGTW_NAME="my-nat-gtw"
 RSA_KEY_NAME="id_rsa.pem"
-RSA_KEY_PATH="~/.ssh/"
+RSA_KEY_PATH="$HOME/ssh/"
 
 
 # Computed values
-PRIVATE_SUBENT="private-${SUBNET_NAME}"
-PUBLIC_SUBNET="public-${SUBNET_NAME}"
-PUBLIC_INSTANCE="public-${INSTANCE_NAME}"
-PRIVATE_INSTANCE="private-${INSTANCE_NAME}"
-PRIVATE_RT="private-${RT_NAME}"
-PUBLIC_RT="public-${RT_NAME}"
+PRIVATE_SUBENT="private-$SUBNET_NAME"
+PUBLIC_SUBNET="public-$SUBNET_NAME"
+PUBLIC_INSTANCE="public-$INSTANCE_NAME"
+PRIVATE_INSTANCE="private-$INSTANCE_NAME"
+PRIVATE_RT="private-$RT_NAME"
+PUBLIC_RT="public-$RT_NAME"
 SSH="${RSA_KEY_PATH}${RSA_KEY_NAME}"
 
 # Function to show usage/help message
