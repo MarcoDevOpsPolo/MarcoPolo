@@ -146,4 +146,4 @@ echo "public: $publicIP"
 privateIP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=my-private-instance-stemilia" --query "Reservations[0].Instances[0].PrivateIpAddress" --output text)
 echo "private: $privateIP"
 
-./service/ssh.sh "$publicIP" "$privateIP"
+./service/ssh.sh "$publicIP" "$privateIP" "$SSH"
