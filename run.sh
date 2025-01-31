@@ -3,6 +3,78 @@
 #stop if any of the scripts fails
 set -e 
 
+# Default values
+VPC_NAME="my-vpc"
+SUBNET_NAME="my-subnet"
+INSTANCE_NAME="my-instance"
+RT_NAME="my-rt"
+IGW_NAME="my-igw"
+NATGTW_NAME="my-nat-gtw"
+RSA_KEY_NAME="id_rsa.pem"
+RSA_KEY_PATH="~/.ssh/"
+
+
+# Computed values
+PRIVATE_SUBENT="private-${SUBNET_NAME}"
+PUBLIC_SUBNET="public-${SUBNET_NAME}"
+PUBLIC_INSTANCE="public-${INSTANCE_NAME}"
+PRIVATE_INSTANCE="private-${INSTANCE_NAME}"
+PRIVATE_RT="private-${RT_NAME}"
+PUBLIC_RT="public-${RT_NAME}"
+SSH="${RSA_KEY_PATH}${RSA_KEY_NAME}"
+
+# Function to show usage/help message
+usage() {
+    echo "Usage: $0 [--vpc-name <name>] [--subnet-name <name>] [--instance-name <name>]"
+    exit 1
+}
+
+# Parse command-line arguments
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --vpc-name)
+            VPC_NAME="$2"
+            shift 2
+            ;;
+        --subnet-name)
+            SUBNET_NAME="$2"
+            shift 2
+            ;;
+        --instance-name)
+            INSTANCE_NAME="$2"
+            shift 2
+            ;;
+        --rt-name)
+            RT_NAME="$2"
+            shift 2
+            ;;
+        --igw-name)
+            IGW_NAME="$2"
+            shift 2
+            ;;
+        --natgtw-name)
+            NATGTW_NAME="$2"
+            shift 2
+            ;;
+        --rsa_key_name)
+            RSA_KEY_NAME="$2"
+            shift 2
+            ;;
+        --rsa_key_path)
+            RSA_KEY_PATH="$2"
+            shift 2
+            ;;
+        --help)
+            usage
+            ;;
+        *)
+            echo "Unknown parameter: $1"
+            usage
+            ;;
+    esac
+done
+
+# Run the AWS scripts
 main() {
     ./service/create_vpc.sh 
     vpcId=$(aws ec2 describe-vpcs --filters "Name=tag:Name,Values=my-vpc2-stemilia" --query "Vpcs[0].VpcId" --output text)
