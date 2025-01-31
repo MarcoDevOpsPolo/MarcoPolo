@@ -77,12 +77,12 @@ done
 # Run the AWS scripts
 main() {
     ./service/create_vpc.sh 
-    vpcId=$(aws ec2 describe-vpcs --filters "Name=tag:Name,Values=my-vpc2-stemilia" --query "Vpcs[0].VpcId" --output text)
+    vpcId=$(aws ec2 describe-vpcs --filters "Name=tag:Name,Values=$VPC_NAME" --query "Vpcs[0].VpcId" --output text)
 
     echo "VPC CREATED"
 
     #creating a Vpc will automatically generate a route-table. Let's name it private route table:
-    ./service/edit_rt_tag_name.sh "$vpcId"
+    ./service/edit_rt_tag_name.sh "$vpcId" "$PRIVATE_RT"
 
     echo "PRIVATE ROUTE TABLE RENAMED"
 
