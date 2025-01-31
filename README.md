@@ -20,6 +20,9 @@ If everything works properly, by the end of the script you'll ssh into the priva
 - AWS CLI installed and configured on your computer
 - Linux OS (It is a Bash script) 
     - OR any bash script compatible runtime environment
+        - MAC
+        - WSL on Windows
+        - GIT BASH
 
 ## How to RUN the Script:
 
