@@ -10,8 +10,9 @@ INSTANCE_NAME="my-instance"
 RT_NAME="my-rt"
 IGW_NAME="my-igw"
 NATGTW_NAME="my-nat-gtw"
-RSA_KEY_NAME="id_rsa.pem"
+RSA_KEY_NAME="id_rsa"
 RSA_KEY_PATH="$HOME/ssh/"
+AMI_ID="ami-0b5673b5f6e8f7fa7" #region: frankfurt eu-central-1
 
 
 # Computed values
@@ -21,7 +22,7 @@ PUBLIC_INSTANCE="public-$INSTANCE_NAME"
 PRIVATE_INSTANCE="private-$INSTANCE_NAME"
 PRIVATE_RT="private-$RT_NAME"
 PUBLIC_RT="public-$RT_NAME"
-SSH="${RSA_KEY_PATH}${RSA_KEY_NAME}"
+SSH="${RSA_KEY_PATH}${RSA_KEY_NAME}.pem"
 
 # Function to show usage/help message
 usage() {
@@ -62,6 +63,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --rsa-key-path)
             RSA_KEY_PATH="$2"
+            shift 2
+            ;;
+        --ami-id)
+            AMI_ID="$2"
             shift 2
             ;;
         --help)
@@ -110,8 +115,8 @@ main() {
     echo "IGW CREATED AND ATTACHED"
 
     #create public and private EC2 instances
-    ./service/runEC2.sh private "$vpcId"
-    ./service/runEC2.sh public "$vpcId"
+    ./service/runEC2.sh "$PRIVATE_INSTANCE" "$vpcId" "$AWS_KEY_NAME" "$AMI_ID"
+    ./service/runEC2.sh "$PUBLIC_INSTANCE" "$vpcId" "$AWS_KEY_NAME" "$AMI_ID"
 
     echo "INSTANCES CREATED"
 
