@@ -25,7 +25,7 @@ SSH="${RSA_KEY_PATH}${RSA_KEY_NAME}"
 
 # Function to show usage/help message
 usage() {
-    echo "Usage: $0 [--vpc-name <name>] [--subnet-name <name>] [--instance-name <name>]"
+    echo "Usage: $0 [--vpc-name <name>] [--subnet-name <name>] [--instance-name <name>] [--rt-name <name>] [--igw-name <name>] [--natgtw-name <name>] [--rsa-key-name <name>] [--rsa-key-path </your/path/>]"
     exit 1
 }
 
@@ -56,11 +56,11 @@ while [[ $# -gt 0 ]]; do
             NATGTW_NAME="$2"
             shift 2
             ;;
-        --rsa_key_name)
+        --rsa-key-name)
             RSA_KEY_NAME="$2"
             shift 2
             ;;
-        --rsa_key_path)
+        --rsa-key-path)
             RSA_KEY_PATH="$2"
             shift 2
             ;;
